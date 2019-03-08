@@ -503,24 +503,15 @@ function get_advance_search_results(){
     if(isset($_POST["id"])){
         $get_value= $_POST["value"];
         global $wpdb;
-        $results = $wpdb->get_results("Select object_id from wp_term_relationships where term_taxonomy_id = '".$get_value."' ");
+        $results = $wpdb->get_results("Select * from wp_term_relationships tr , wp_posts p where tr.object_id = p.ID and term_taxonomy_id = '".$get_value."' ");
         for($i=0;$i<count($results);$i++){
-            //$results_2 = $wpdb->get_results("Select * from wp_posts where ID = '".$results[$i]->object_id."' ");
-            $results_2 = get_post($results[$i]->object_id,ARRAY_A);
-            echo $results_2["post_title"];
-            ?>
-                <tab>
-            <?php
-            echo $results_2["post_content"];
-            ?>
-                <br>
-            <?php
+            echo $results[$i]->post_title;
+                ?><tab><?php
+            echo $results[$i]->post_content;
+                ?><br><?php
         }die;
     }
 }
-
-
-
 
 /**
  * SVG Icons class.
